@@ -1,0 +1,25 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /app
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/E-commerce
+    username: postgres
+    password: sasa1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update        # Crea/actualiza tablas automáticamente
+    show-sql: false            # Muestra las queries en consola
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false      # Formatea el SQL en consola
+
+logging:
+  level:
+    org.hibernate.SQL: warn
+    org.springframework: info
