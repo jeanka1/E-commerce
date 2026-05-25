@@ -27,8 +27,10 @@ public class SecurityConfig {
                                 "/api/auth/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
-                                "/swagger-ui/html"
-                        ).permitAll()
+                                "/swagger-ui/html",
+                                "/administrator",          // ← AÑADE ESTA LÍNEA
+                                "/**"                       // ← AÑADE ESTA LÍNEA
+                        ).permitAll()                      // ← Permite acceso público
                         .anyRequest().authenticated()
                 );
         return http.build();

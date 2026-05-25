@@ -21,7 +21,7 @@ public class Order {
     private double total;
 
     @ManyToOne
-    private User use;
+    private User user;
 
     @OneToOne(mappedBy = "order")
     private OrderItems orderItems;
@@ -78,11 +78,11 @@ public class Order {
     }
 
     public User getUse() {
-        return use;
+        return user;
     }
 
     public void setUse(User use) {
-        this.use = use;
+        this.user = use;
     }
 
     public OrderItems getOrderItems() {
