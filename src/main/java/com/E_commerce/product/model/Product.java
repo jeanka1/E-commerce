@@ -1,9 +1,17 @@
 package com.E_commerce.product.model;
 
+import com.E_commerce.category.model.Category;
+import com.E_commerce.user.model.User;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
+@Table(name = "products", schema = "main")
 public class Product {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private String description;
@@ -11,16 +19,23 @@ public class Product {
     private double price;
     private int quantity;
 
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Category category;
+
     public Product() {
     }
 
-    public Product(UUID id, String name, String description, String imagen, double price, int quantity) {
+    public Product(UUID id, String name, String description, String imagen, double price, int quantity, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.imagen = imagen;
         this.price = price;
         this.quantity = quantity;
+        this.user = user;
     }
 
     public UUID getId() {
@@ -69,6 +84,22 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override

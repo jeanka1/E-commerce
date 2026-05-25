@@ -2,12 +2,22 @@ package com.E_commerce.user.model;
 
 
 
+import com.E_commerce.category.model.Category;
+import com.E_commerce.order.model.Order;
+import com.E_commerce.product.model.Product;
+import jakarta.persistence.*;
+
+import java.util.List;
 import java.util.UUID;
 
-
+@Entity
+@Table(name = "users", schema = "main")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     private String name;
     private String username;
     private String email;
@@ -15,6 +25,15 @@ public class User {
     private String telephone;
     private String type;
     private String password;
+
+    @OneToMany(mappedBy = "user")
+    private List<Product> product;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> order;
+
+    @OneToMany(mappedBy = "user")
+    private List<Category> category;
 
     public User() {
     }
@@ -92,6 +111,30 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Product> getProduct() {
+        return product;
+    }
+
+    public void setProduct(List<Product> product) {
+        this.product = product;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
+    }
+
+    public List<Category> getCategory() {
+        return category;
+    }
+
+    public void setCategory(List<Category> category) {
+        this.category = category;
     }
 
     @Override

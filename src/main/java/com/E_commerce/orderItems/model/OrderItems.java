@@ -1,14 +1,28 @@
 package com.E_commerce.orderItems.model;
 
+import com.E_commerce.order.model.Order;
+import com.E_commerce.product.model.Product;
+import jakarta.persistence.*;
+
 import java.util.UUID;
 
+@Entity
+@Table(name ="detailsOrder", schema = "main")
 public class OrderItems {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String name;
     private double quantity;
     private double price;
     private double total;
+
+    @OneToOne
+    private Order order;
+
+    @OneToOne
+    private Product product;
 
     public OrderItems() {
     }
@@ -19,6 +33,7 @@ public class OrderItems {
         this.quantity = quantity;
         this.price = price;
         this.total = total;
+
     }
 
     public UUID getId() {
@@ -59,6 +74,22 @@ public class OrderItems {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     @Override

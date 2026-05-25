@@ -1,16 +1,30 @@
 package com.E_commerce.order.model;
 
+import com.E_commerce.orderItems.model.OrderItems;
+import com.E_commerce.user.model.User;
+import jakarta.persistence.*;
+
 import java.util.Date;
 import java.util.UUID;
 
+@Entity
+@Table(name="orders", schema = "main")
 public class Order {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String number;
     private Date creationDate;
     private Date receivedDate;
 
     private double total;
+
+    @ManyToOne
+    private User use;
+
+    @OneToOne(mappedBy = "order")
+    private OrderItems orderItems;
 
     public Order() {
     }
@@ -61,6 +75,22 @@ public class Order {
 
     public void setTotal(double total) {
         this.total = total;
+    }
+
+    public User getUse() {
+        return use;
+    }
+
+    public void setUse(User use) {
+        this.use = use;
+    }
+
+    public OrderItems getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(OrderItems orderItems) {
+        this.orderItems = orderItems;
     }
 
     @Override
