@@ -3,17 +3,17 @@ package com.E_commerce.product.controller;
 
 import com.E_commerce.product.model.Product;
 import com.E_commerce.product.service.ProductService;
+import com.E_commerce.product.service.UploadFileService;
 import com.E_commerce.user.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -24,6 +24,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private UploadFileService uploadFileService;
 
     @GetMapping("")
     public String show(Model model){
@@ -37,10 +40,28 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public String save(Product product){
+    public String save(Product product,@RequestParam("img") MultipartFile file) throws IOException {
         LOGGER.info("este es el objeto product {}",product);
         User u= new User(1,"","","","","","","");
         product.setUser(u);
+
+        //imagen
+        if(product.getId()==null){ // cuando se crea un producto
+            String nameImage= uploadFileService.saveImage(file);
+            product.setImagen(nameImage);
+        }else {
+            if(file.isEmpty()) { // cuando editamos el producto pero no cambiamos la imagen
+                Product p = new Product();
+                p = productService.get(product.getId()).get();
+                product.setImagen(p.getImagen());
+            }else {
+                String nameImage= uploadFileService.saveImage(file);
+                product.setImagen(nameImage);
+            }
+
+        }
+
+
         productService.save(product);
         return "redirect:/products";
     }
