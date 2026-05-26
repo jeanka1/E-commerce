@@ -10,12 +10,12 @@ public class CategoryController {
 
     @GetMapping("")
     public String showC(){
-        return "/products/showC";
+        return "/category/showC";
     }
 
     @GetMapping("/createCategories")
     public String createCategory(){
-        return "/products/createCategory";
+        return "/category/createCategory";
     }
 
 }
