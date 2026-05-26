@@ -11,8 +11,8 @@ import java.util.UUID;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
     private String description;
     private String imagen;
@@ -28,7 +28,7 @@ public class Product {
     public Product() {
     }
 
-    public Product(UUID id, String name, String description, String imagen, double price, int quantity, User user) {
+    public Product(Integer id, String name, String description, String imagen, double price, int quantity, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -38,11 +38,11 @@ public class Product {
         this.user = user;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

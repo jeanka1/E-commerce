@@ -12,8 +12,8 @@ import java.util.UUID;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String number;
     private Date creationDate;
     private Date receivedDate;
@@ -29,7 +29,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(UUID id, String number, Date creationDate, Date receivedDate, double total) {
+    public Order(Integer id, String number, Date creationDate, Date receivedDate, double total) {
         this.id = id;
         this.number = number;
         this.creationDate = creationDate;
@@ -37,11 +37,11 @@ public class Order {
         this.total = total;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
