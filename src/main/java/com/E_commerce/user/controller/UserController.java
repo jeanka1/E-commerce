@@ -63,7 +63,15 @@ public class UserController {
         orderItems.setTotal(product.getPrice()*quantity);
         orderItems.setProduct(product);
 
-        items.add(orderItems);
+        // validar que el producto no se añada dos veces
+        Integer idProduct=product.getId();
+        boolean ingresado=items.stream().anyMatch(p -> p.getProduct().getId()==idProduct);
+
+        if(!ingresado){
+            items.add(orderItems);
+        }
+
+
 
         sumaTotal=items.stream().mapToDouble(dt->dt.getTotal()).sum();
 
@@ -101,6 +109,13 @@ public class UserController {
         model.addAttribute("order",order);
 
         return "user/cart";
+    }
+
+    @GetMapping("getCart")
+    public String getCart(Model model){
+        model.addAttribute("cart",items);
+        model.addAttribute("order",order);
+        return "/user/cart";
     }
 
 }
