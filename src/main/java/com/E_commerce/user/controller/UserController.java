@@ -1,7 +1,9 @@
 package com.E_commerce.user.controller;
 
 import com.E_commerce.order.model.Order;
+import com.E_commerce.order.service.OrderService;
 import com.E_commerce.orderItems.model.OrderItems;
+import com.E_commerce.orderItems.service.OrderItemsService;
 import com.E_commerce.product.model.Product;
 import com.E_commerce.product.service.ProductService;
 import com.E_commerce.user.model.User;
@@ -13,7 +15,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,6 +38,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private OrderItemsService orderItemsService;
 
     @GetMapping("")
     public String home(Model model) {
@@ -133,4 +143,27 @@ public class UserController {
         return "/user/resumenorder";
     }
 
+    //guardar la orden
+    @GetMapping("saveOrder")
+    public String saveOrder(){
+        Date crationDate= new Date();
+        order.setCreationDate(crationDate);
+        order.setNumber(orderService.generarNumberOrder());
+
+        //usuario
+        User user= userService.findAllId(1).get();
+        order.setUse(user);
+        orderService.save(order);
+
+        //guardar detalles
+        for (OrderItems dt:items){
+            dt.setOrder(order);
+            orderItemsService.save(dt);
+        }
+
+        // limppiar
+         order = new Order();
+        items.clear();
+        return "redirect:/";
+    }
 }

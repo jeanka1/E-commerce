@@ -5,6 +5,7 @@ import com.E_commerce.user.model.User;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,8 +24,8 @@ public class Order {
     @ManyToOne
     private User user;
 
-    @OneToOne(mappedBy = "order")
-    private OrderItems orderItems;
+    @OneToMany(mappedBy = "order")
+    private List<OrderItems> orderItems;
 
     public Order() {
     }
@@ -85,11 +86,11 @@ public class Order {
         this.user = use;
     }
 
-    public OrderItems getOrderItems() {
+    public List<OrderItems> getOrderItems() {
         return orderItems;
     }
 
-    public void setOrderItems(OrderItems orderItems) {
+    public void setOrderItems(List<OrderItems> orderItems) {
         this.orderItems = orderItems;
     }
 

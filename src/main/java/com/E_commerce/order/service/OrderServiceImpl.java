@@ -24,7 +24,7 @@ public class OrderServiceImpl  implements OrderService{
         return orderRepository.findAll();
     }
 
-    public String generarNumeroOrder(){
+    public String generarNumberOrder(){
 
         int number=0;
         String numberConcatenado="";
