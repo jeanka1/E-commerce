@@ -8,4 +8,5 @@ public interface UserService {
 
     Optional<User> findAllId(Integer id);
     User save (User user);
+    Optional<User> findByEmail(String email);
 }
