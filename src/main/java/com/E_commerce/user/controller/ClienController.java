@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,8 @@ public class ClienController {
     @Autowired
     private OrderService orderService;
 
+    BCryptPasswordEncoder passwordEncoder= new BCryptPasswordEncoder();
+
     //clien/registro
     @GetMapping("/register")
     public String create(){
@@ -40,6 +43,7 @@ public class ClienController {
     public String save(User user){
         log.info("usuario regitro {}", user);
         user.setType("USER");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.save(user);
         return "redirect:/";
     }

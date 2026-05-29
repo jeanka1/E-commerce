@@ -1,5 +1,6 @@
 package com.E_commerce.config;
 
+import com.E_commerce.user.service.UseDetailServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,31 +9,41 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableMethodSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig  {
+
+    private  UseDetailServiceImpl useDetailService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults())
-                .sessionManagement(session->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth-> auth
-                        .requestMatchers(
-                                "/api/auth/**",
-                                "/swagger-ui/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/html",
-                                "/administrator",          // ← AÑADE ESTA LÍNEA
-                                "/**"                       // ← AÑADE ESTA LÍNEA
-                        ).permitAll()                      // ← Permite acceso público
-                        .anyRequest().authenticated()
+                .csrf(csrf -> csrf.disable())  // Deshabilitar CSRF (como tenías)
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/administrator/**").hasRole("ADMIN")
+                        .requestMatchers("/productos/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()  // Las demás rutas son públicas
+                )
+                .formLogin(form -> form
+                        .loginPage("/usuario/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/usuario/acceder", true)
                 );
+
+
+
         return http.build();
     }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();  // Encriptación para contraseñas
+    }
+
 }
