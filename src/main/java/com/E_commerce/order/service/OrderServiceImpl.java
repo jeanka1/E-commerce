@@ -2,6 +2,7 @@ package com.E_commerce.order.service;
 
 import com.E_commerce.order.model.Order;
 import com.E_commerce.order.repository.OrderRepository;
+import com.E_commerce.user.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,11 @@ public class OrderServiceImpl  implements OrderService{
     @Override
     public List<Order> findAll() {
         return orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> findByUser(User user) {
+        return orderRepository.findByUser(user);
     }
 
     public String generarNumberOrder(){

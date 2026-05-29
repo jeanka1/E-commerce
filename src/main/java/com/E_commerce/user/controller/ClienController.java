@@ -1,5 +1,7 @@
 package com.E_commerce.user.controller;
 
+import com.E_commerce.order.model.Order;
+import com.E_commerce.order.service.OrderService;
 import com.E_commerce.user.model.User;
 import com.E_commerce.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -22,6 +25,9 @@ public class ClienController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
 
     //clien/registro
     @GetMapping("/register")
@@ -65,6 +71,12 @@ public class ClienController {
     @GetMapping("/compras")
     public String obtenerCompras(Model model, HttpSession session){
         model.addAttribute("session",session.getAttribute("iduser"));
+
+        User user=userService.findAllId(Integer.parseInt(session.getAttribute("iduser").toString())).get();
+        List<Order> order=orderService.findByUser(user);
+
+        model.addAttribute("order", order);
+
         return "user/compras";
     }
 
