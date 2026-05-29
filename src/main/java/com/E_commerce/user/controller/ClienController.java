@@ -92,4 +92,9 @@ public class ClienController {
         return "user/detalleCompra";
     }
 
+    @GetMapping("/close")
+    public String closeSesion(HttpSession session){
+        session.removeAttribute("iduser");
+        return "redirect:/";
+    }
 }
