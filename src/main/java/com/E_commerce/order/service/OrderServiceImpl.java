@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrderServiceImpl  implements OrderService{
@@ -28,6 +29,11 @@ public class OrderServiceImpl  implements OrderService{
     @Override
     public List<Order> findByUser(User user) {
         return orderRepository.findByUser(user);
+    }
+
+    @Override
+    public Optional<Order> findById(Integer id) {
+        return orderRepository.findById(id);
     }
 
     public String generarNumberOrder(){
