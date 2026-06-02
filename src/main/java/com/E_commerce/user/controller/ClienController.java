@@ -53,11 +53,11 @@ public class ClienController {
         return "user/login";
     }
 
-    @PostMapping("/acceder")
+    @GetMapping("/acceder")
     public String acceder(User user, HttpSession session){
         log.info("accesos : {}", user);
 
-        Optional<User> user1=userService.findByEmail(user.getEmail());
+        Optional<User> user1=userService.findById(Integer.parseInt(session.getAttribute("iduser").toString()));
         //log.info("usuario de db:{}", user1.get());
 
         if(user1.isPresent()){
@@ -77,7 +77,7 @@ public class ClienController {
     public String obtenerCompras(Model model, HttpSession session){
         model.addAttribute("session",session.getAttribute("iduser"));
 
-        User user=userService.findAllId(Integer.parseInt(session.getAttribute("iduser").toString())).get();
+        User user=userService.findById(Integer.parseInt(session.getAttribute("iduser").toString())).get();
         List<Order> order=orderService.findByUser(user);
 
         model.addAttribute("order", order);

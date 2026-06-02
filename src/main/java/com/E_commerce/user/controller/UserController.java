@@ -144,7 +144,7 @@ public class UserController {
     @GetMapping("/verOrder")
     public String verOrder(Model model, HttpSession session){
 
-        User user= userService.findAllId(Integer.parseInt(session.getAttribute("iduser").toString())).get();
+        User user= userService.findById(Integer.parseInt(session.getAttribute("iduser").toString())).get();
 
         model.addAttribute("cart", items);
         model.addAttribute("order", order);
@@ -160,7 +160,7 @@ public class UserController {
         order.setNumber(orderService.generarNumberOrder());
 
         //usuario
-        User user= userService.findAllId(Integer.parseInt(session.getAttribute("iduser").toString())).get();
+        User user= userService.findById(Integer.parseInt(session.getAttribute("iduser").toString())).get();
         order.setUse(user);
         orderService.save(order);
 

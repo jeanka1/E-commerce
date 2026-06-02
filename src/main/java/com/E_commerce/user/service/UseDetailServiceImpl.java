@@ -31,13 +31,13 @@ public class UseDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        log.info("esto es el Username: {}");
+        log.info("esto es el name: {}",username);
         Optional<User> optionalUser=userService.findByEmail(username);
         if(optionalUser.isPresent()){
             log.info("este es el ide del user: {}", optionalUser.get().getId());
             session.setAttribute("iduser",optionalUser.get().getId());
             User user=optionalUser.get();
-            return org.springframework.security.core.userdetails.User.builder().username(user.getUsername()).password(bCrypt.encode(user.getPassword())).roles(user.getType()).build();
+            return org.springframework.security.core.userdetails.User.builder().username(user.getUsername()).password(user.getPassword()).roles(user.getType()).build();
         }else{
             throw new UsernameNotFoundException("usuario no encontrado");
         }

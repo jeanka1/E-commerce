@@ -32,9 +32,9 @@ public class SecurityConfig  {
                         .anyRequest().permitAll()  // Las demás rutas son públicas
                 )
                 .formLogin(form -> form
-                        .loginPage("/usuario/login")
+                        .loginPage("/clien/login")
                         .permitAll()
-                        .defaultSuccessUrl("/usuario/acceder", true)
+                        .defaultSuccessUrl("/clien/acceder", true)
                 );
 
 
